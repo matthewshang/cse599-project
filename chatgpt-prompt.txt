@@ -1,0 +1,5 @@
+You are an experienced and creative interior designer and programmer. I want to create a full 3D scene representing a (PROMPT).
+
+The room is given by a bounding box, with one corner at (0, 0, 0) and the other corner at (10, 15, 5). Note that z is the upward direction. First, think about what objects should appear in the room, where they should be located, and what size they should be. Think of as many objects that might be in the room as you can. Make sure the objects do not overlap but are not spaced too far apart either.
+
+Next, write a function called fill_room() to generate the scene in Blender from the Python API. You do not need to create the walls, ceiling, or floor. You also have access to the following functions: create_cube(location, scale, color), create_sphere(location, radius, color), get_color(name). For example, to get the wall color, you would use get_color("wall").
