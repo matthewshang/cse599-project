@@ -5,6 +5,7 @@ This repository has code and data for our course project, World Modeling with La
 - `data` contains 15 generations with their prompts, generated Blender scripts,
 final renders from our pipeline, and renders using plain Stable Diffusion on the prompt.
 - `eval-data` contains the shuffled pairs of images we used for our human evaluation.
+- `eval-results` contains a spreadsheet with the results of the survey we conducted for our human evaluation.
 - `chatgpt-prompt.txt` has the template we used for prompting ChatGPT.
 - `generate_prompts.py` generates prompts for ChatGPT and Stable Diffusion from an environment prompt.
 - `generate_script.py` generates a full Blender script from a ChatGPT completion of a function for filling in environment details.
