@@ -213,7 +213,13 @@ def create_room():
     create_cube((ROOM_DIMS[0] / 2, ROOM_DIMS[1] / 2, ROOM_DIMS[2]), 
                 (ROOM_DIMS[0],     ROOM_DIMS[1], 0.1), get_color("ceiling"))
 
-# fill_room goes here
+(fill_room)
+
+# Raw is important so the segmentation map has the intended colors
+bpy.context.scene.view_settings.view_transform = 'Raw'
+
+bpy.context.scene.render.resolution_x = 1024
+bpy.context.scene.render.resolution_y = 768
 
 # Clear existing objects
 bpy.ops.object.select_all(action='DESELECT')

@@ -1,0 +1,14 @@
+bedroom that has three beds, comfortable bed, soft pillows, atmospheric, detailed, realistic lighting, sunlight, reflections, award winning contemporary interior design, interior photo, cozy calm! fabrics textiles, books, colorful accents, brass copper, many light sources, lamps, oiled hardwood floors, plants, book shelves
+
+classroom with a globe, earth globe with stand, wooden desk, school chairs, whiteboards, windows, teacher's desk, wall decorations, interior photo, atmospheric, detailed, realistic lighting, sunlight, reflections, contemporary interior design, waite, award - winning photograph, canon eos 5 d mark iv, fujifilm x - t 4
+
+colorful accents, cozy and calm, fabrics and textiles, wall decorations, interior photo, atmospheric, detailed, realistic lighting, sunlight, reflections, award winning contemporary interior design, waite, award - winning photograph, canon eos 5 d mark iv, fujifilm x - t 4
+
+Sampling method: DPM++ 2M Karras
+Sampling steps: 25
+Seed: 282757781
+Width: 1024
+Height: 768
+CFG Scale: 10
+control_v11p_sd15_seg [e1f51eb9]
+Control Weight: 0.7
