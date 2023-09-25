@@ -7,12 +7,13 @@ import random
 def make_emissive(color):
     mat = bpy.data.materials.new(name="Material")
     mat.use_nodes = True
-    material_output = mat.node_tree.nodes.get('Material Output')
-    emission = mat.node_tree.nodes.new('ShaderNodeEmission')
-    emission.inputs['Strength'].default_value = 1.0
+    material_output = mat.node_tree.nodes.get("Material Output")
+    emission = mat.node_tree.nodes.new("ShaderNodeEmission")
+    emission.inputs["Strength"].default_value = 1.0
     adjusted_color = (color[0] / 255, color[1] / 255, color[2] / 255, 1)
-    emission.inputs['Color'].default_value = adjusted_color
+    emission.inputs["Color"].default_value = adjusted_color
     mat.node_tree.links.new(material_output.inputs[0], emission.outputs[0])
+    return mat
 
 def create_cube(location, scale, color):
     bpy.ops.mesh.primitive_cube_add(location=location)
@@ -21,8 +22,8 @@ def create_cube(location, scale, color):
     cube.active_material = make_emissive(color)
     return cube
 
-def create_sphere(location, scale, color):
-    bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=5, location=location, radius=scale)
+def create_sphere(location, radius, color):
+    bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=5, location=location, radius=radius)
     sphere = bpy.context.active_object
     sphere.active_material = make_emissive(color)
     return sphere
@@ -213,30 +214,45 @@ def create_room():
     create_cube((ROOM_DIMS[0] / 2, ROOM_DIMS[1] / 2, ROOM_DIMS[2]), 
                 (ROOM_DIMS[0],     ROOM_DIMS[1], 0.1), get_color("ceiling"))
 
-(fill_room)
+# fill_room stub
+                
+# Rendering code mostly taken from 
+# https://github.com/allenai/objaverse-xl/blob/main/scripts/rendering/blender_script.py
+context = bpy.context
+scene = context.scene
+render = scene.render
 
-# Raw is important so the segmentation map has the intended colors
-bpy.context.scene.view_settings.view_transform = 'Raw'
+# Make sure the segmentation map has the intended colors
+scene.view_settings.view_transform = "Raw"
 
-bpy.context.scene.render.resolution_x = 1024
-bpy.context.scene.render.resolution_y = 768
+render.engine = "CYCLES"
+render.image_settings.file_format = "PNG"
+render.image_settings.color_mode = "RGBA"
+render.resolution_x = 1024
+render.resolution_y = 768
+render.resolution_percentage = 100
+
+scene.cycles.device = "GPU"
 
 # Clear existing objects
-bpy.ops.object.select_all(action='DESELECT')
-bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.select_all(action="DESELECT")
+bpy.ops.object.select_all(action="SELECT")
 bpy.ops.object.delete(use_global=False)
 
 # Prepare camera
-cam = bpy.data.cameras.new("Camera 1")
-cam.lens = 30
-cam_obj = bpy.data.objects.new("Camera 1", cam)
-scn = bpy.context.scene
-scn.collection.objects.link(cam_obj)
+camera = bpy.data.cameras.new("Camera 1")
+camera.lens = 30
+camera_obj = bpy.data.objects.new("Camera 1", camera)
+scene.collection.objects.link(camera_obj)
+scene.camera = camera_obj
 
-cam_obj.location = (1, 1, 3.5)
-direction = mathutils.Vector((5 - 1, 5 - 1, 0.5 - 3.5))
-rot_quat = direction.to_track_quat('-Z', 'Y')
-cam_obj.rotation_euler = rot_quat.to_euler()
+camera_obj.location = Vector((1, 1, 3.5))
+direction = Vector((5, 5, 0.5)) - camera_obj.location
+rot_quat = direction.to_track_quat("-Z", "Y")
+camera_obj.rotation_euler = rot_quat.to_euler()
 
 create_room()
 fill_room()
+
+render.filepath = "out.png"
+bpy.ops.render.render(write_still=True)
